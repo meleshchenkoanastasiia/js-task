@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <title>Task 1</title>
+    </head>
+    <body>
+        <script>
+            const parametres = {
+                lines: [
+                    {
+                        background: 'red',
+                        updateTime: 1000,
+                        elements: [{ background: 'cyan', width: 50 }]
+                    },
+                    {
+                        background: 'blue',
+                        updateTime: 100,
+                        elements: [{ background: 'gray', width: 70 }]
+                    },
+                    {
+                        background: 'green',
+                        updateTime: 500,
+                        elements: [{ background: 'black', width: 20 }]
+                    },
+                    {
+                        background: 'pink',
+                        updateTime: 2000,
+                        elements: [{ background: 'royalblue', width: 35 }]
+                    },
+                    {
+                        background: 'orange',
+                        updateTime: 1400,
+                        elements: [{ background: 'violet', width: 55 }]
+                    }
+                ]
+            };
+
+            function getRandomColor() {
+                return "#"+((1<<24)*Math.random()|0).toString(16);
+            }
+
+            function draw(params) {
+                const { lines } = params;
+                const container = document.createElement("div");
+                lines.forEach(line => {
+                    const { background, updateTime, elements } = line;
+                    let node = document.createElement("div");
+                    node.style.width = window.innerWidth + "px";
+                    node.style.height = window.innerHeight / lines.length + "px";
+                    node.style.background = background;
+                    node.style.display = "flex";
+                    elements.forEach(element => {
+                        const { background, width } = element;
+                        let partial = document.createElement("div");
+                        partial.style.width  = width + "%";
+                        partial.style.height = node.style.height;
+                        partial.style.background = background;
+                        node.append(partial);
+                    });
+
+                    setInterval(function() {
+                        node.style.background = getRandomColor();
+                    }, updateTime);
+
+                    container.append(node);
+                });
+                document.getElementsByTagName("body")[0].append(container);
+            }
+
+            draw(parametres);
+        </script>
+    </body>
+</html>
